@@ -39,6 +39,9 @@ migrate_working_dir/
 *.freezed.dart
 *.g.dart
 
+# Environment variables (contains the TMDB API key) — copy .env.template to .env
+.env
+
 # Symbolication related
 app.*.symbols
 

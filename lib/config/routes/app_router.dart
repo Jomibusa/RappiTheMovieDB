@@ -1,6 +1,6 @@
 import 'package:fluro/fluro.dart';
 
-import '../main.dart';
+import '../../main.dart';
 
 class AppRouter {
   static final FluroRouter router = FluroRouter();
