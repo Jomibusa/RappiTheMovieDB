@@ -1,5 +1,5 @@
 import 'package:rappi_themoviedb/domain/datasources/actors_datasource.dart';
-import 'package:rappi_themoviedb/domain/entities/actor.dart';
+import 'package:rappi_themoviedb/domain/entities/entities.dart';
 import 'package:rappi_themoviedb/domain/repositories/actors_repository.dart';
 
 class ActorRepositoryImpl extends ActorsRepository {

@@ -1,8 +1,8 @@
 import 'package:rappi_themoviedb/config/network/moviedb_client.dart';
 import 'package:rappi_themoviedb/domain/datasources/actors_datasource.dart';
-import 'package:rappi_themoviedb/domain/entities/actor.dart';
-import 'package:rappi_themoviedb/data/mappers/actor_mapper.dart';
-import 'package:rappi_themoviedb/data/models/moviedb/credits_response.dart';
+import 'package:rappi_themoviedb/domain/entities/entities.dart';
+import 'package:rappi_themoviedb/data/mappers/mappers.dart';
+import 'package:rappi_themoviedb/data/models/models.dart';
 import 'package:dio/dio.dart';
 
 class ActorMovieDbDatasource extends ActorsDatasource {
