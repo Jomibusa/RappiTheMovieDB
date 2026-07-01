@@ -1,6 +1,6 @@
 import 'package:rappi_themoviedb/domain/entities/entities.dart';
 
-abstract class MoviesRepository {
+abstract class MoviesDatasource {
   Future<List<Movie>> getPopular({int page = 1});
   Future<List<Movie>> getTopRated({int page = 1});
   Future<Movie> getMovieByID(String id);
