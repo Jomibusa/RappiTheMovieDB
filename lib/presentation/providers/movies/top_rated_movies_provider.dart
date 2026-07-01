@@ -17,11 +17,13 @@ class TopRatedMoviesNotifier extends Notifier<List<Movie>> {
     if (_isLoading) return;
     _isLoading = true;
 
-    _currentPage++;
-    final repository = ref.read(moviesRepositoryProvider);
-    final movies = await repository.getTopRated(page: _currentPage);
-    state = [...state, ...movies];
-
-    _isLoading = false;
+    try {
+      _currentPage++;
+      final repository = ref.read(moviesRepositoryProvider);
+      final movies = await repository.getTopRated(page: _currentPage);
+      state = [...state, ...movies];
+    } finally {
+      _isLoading = false;
+    }
   }
 }
