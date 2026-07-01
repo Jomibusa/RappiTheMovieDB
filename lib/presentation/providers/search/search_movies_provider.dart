@@ -3,7 +3,7 @@ import 'package:rappi_themoviedb/domain/entities/entities.dart';
 import 'package:rappi_themoviedb/presentation/providers/movies/movies_repository_provider.dart';
 
 final searchMoviesProvider =
-    NotifierProvider<SearchMoviesNotifier, List<Movie>>(
+    NotifierProvider.autoDispose<SearchMoviesNotifier, List<Movie>>(
         SearchMoviesNotifier.new);
 
 class SearchMoviesNotifier extends Notifier<List<Movie>> {

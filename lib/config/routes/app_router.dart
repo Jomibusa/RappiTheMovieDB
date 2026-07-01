@@ -19,5 +19,12 @@ class AppRouter {
             MovieScreen(movieId: params['id']!.first),
       ),
     );
+
+    router.define(
+      '/search',
+      handler: Handler(
+        handlerFunc: (context, params) => const SearchScreen(),
+      ),
+    );
   }
 }

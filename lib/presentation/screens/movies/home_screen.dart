@@ -24,7 +24,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final topRatedMovies = ref.watch(topRatedMoviesProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('RappiMovies')),
+      appBar: AppBar(
+        title: const Text('RappiMovies'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () => Navigator.pushNamed(context, '/search'),
+          ),
+        ],
+      ),
       body: popularMovies.isEmpty
           ? const FullScreenLoader()
           : ListView(
