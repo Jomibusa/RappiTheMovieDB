@@ -1,6 +1,5 @@
 import 'package:fluro/fluro.dart';
-
-import '../../main.dart';
+import 'package:rappi_themoviedb/presentation/screens/screens.dart';
 
 class AppRouter {
   static final FluroRouter router = FluroRouter();
@@ -9,8 +8,15 @@ class AppRouter {
     router.define(
       '/',
       handler: Handler(
+        handlerFunc: (context, params) => const HomeScreen(),
+      ),
+    );
+
+    router.define(
+      '/movie/:id',
+      handler: Handler(
         handlerFunc: (context, params) =>
-            const MyHomePage(title: 'Flutter Demo Home Page'),
+            MovieScreen(movieId: params['id']!.first),
       ),
     );
   }

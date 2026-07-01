@@ -5,10 +5,8 @@ Dio buildMovieDbDio() {
   return Dio(
     BaseOptions(
       baseUrl: 'https://api.themoviedb.org/3',
-      queryParameters: {
-        'api_key': Environment.theMovieDBKey,
-        'language': 'es-MX',
-      },
+      queryParameters: {'language': 'es-MX'},
+      headers: {'Authorization': 'Bearer ${Environment.theMovieDBKey}'},
     ),
   );
 }

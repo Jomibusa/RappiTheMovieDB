@@ -12,7 +12,7 @@ abstract class MovieDetails with _$MovieDetails {
     @JsonKey(name: 'backdrop_path') @Default('') String backdropPath,
     @JsonKey(name: 'belongs_to_collection') dynamic belongsToCollection,
     required int budget,
-    required List<Genre> genres,
+    required List<GenreDto> genres,
     required String homepage,
     required int id,
     @JsonKey(name: 'imdb_id') required String imdbId,
@@ -45,13 +45,14 @@ abstract class MovieDetails with _$MovieDetails {
 }
 
 @freezed
-abstract class Genre with _$Genre {
-  const factory Genre({
+abstract class GenreDto with _$GenreDto {
+  const factory GenreDto({
     required int id,
     required String name,
-  }) = _Genre;
+  }) = _GenreDto;
 
-  factory Genre.fromJson(Map<String, dynamic> json) => _$GenreFromJson(json);
+  factory GenreDto.fromJson(Map<String, dynamic> json) =>
+      _$GenreDtoFromJson(json);
 }
 
 @freezed
