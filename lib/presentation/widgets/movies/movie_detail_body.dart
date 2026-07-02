@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rappi_themoviedb/config/theme/app_colors.dart';
 import 'package:rappi_themoviedb/domain/entities/entities.dart';
 import 'package:rappi_themoviedb/presentation/providers/providers.dart';
 import 'package:rappi_themoviedb/presentation/widgets/widgets.dart';
+import 'package:rappi_themoviedb/i18n/strings/gen/strings.g.dart';
 
 class MovieDetailBody extends ConsumerWidget {
   final MovieDetail movie;
@@ -69,8 +71,8 @@ class MovieDetailBody extends ConsumerWidget {
                       child: SizedBox(height: 180, child: FullScreenLoader()),
                     ),
                     error: (error, _) => Text(
-                      'No se pudo cargar el elenco: $error',
-                      style: const TextStyle(color: Colors.red),
+                      t.movieDetail.actorsLoadError(error: '$error'),
+                      style: const TextStyle(color: AppColors.error),
                     ),
                   ),
                 ],
@@ -94,7 +96,7 @@ class _ActorsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 16),
-        Text('Actores', style: Theme.of(context).textTheme.titleMedium),
+        Text(t.movieDetail.actorsTitle, style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 8),
         child,
       ],

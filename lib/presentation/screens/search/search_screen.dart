@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rappi_themoviedb/presentation/providers/providers.dart';
 import 'package:rappi_themoviedb/presentation/widgets/widgets.dart';
+import 'package:rappi_themoviedb/i18n/strings/gen/strings.g.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key});
@@ -36,15 +37,15 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       appBar: AppBar(
         title: TextField(
           autofocus: true,
-          decoration: const InputDecoration(
-            hintText: 'Buscar película...',
+          decoration: InputDecoration(
+            hintText: t.search.hint,
             border: InputBorder.none,
           ),
           onChanged: _onQueryChanged,
         ),
       ),
       body: results.isEmpty
-          ? const Center(child: Text('Escribe para buscar una película'))
+          ? Center(child: Text(t.search.emptyState))
           : ListView.builder(
               itemCount: results.length,
               itemBuilder: (context, index) =>

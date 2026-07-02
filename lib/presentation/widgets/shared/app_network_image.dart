@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rappi_themoviedb/config/theme/app_colors.dart';
 
 class AppNetworkImage extends StatelessWidget {
   final String url;
@@ -28,14 +29,14 @@ class AppNetworkImage extends StatelessWidget {
         return Container(
           width: width ?? double.infinity,
           height: height ?? double.infinity,
-          color: Colors.grey[900],
+          color: AppColors.imagePlaceholderDark,
         );
       },
       errorBuilder: (context, _, __) => Container(
         width: width ?? double.infinity,
         height: height ?? double.infinity,
-        color: Colors.grey[900],
-        child: Icon(errorIcon, color: Colors.white24, size: 40),
+        color: AppColors.imagePlaceholderDark,
+        child: Icon(errorIcon, color: AppColors.imagePlaceholderIcon, size: 40),
       ),
     );
   }

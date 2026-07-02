@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rappi_themoviedb/presentation/providers/providers.dart';
 import 'package:rappi_themoviedb/presentation/widgets/widgets.dart';
+import 'package:rappi_themoviedb/i18n/strings/gen/strings.g.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -25,7 +26,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return ScaffoldMessenger(
       child: Scaffold(
       appBar: AppBar(
-        title: const Text('RappiMovies'),
+        title: Text(t.appTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
@@ -35,10 +36,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ),
       body: ListView(
         children: [
-          MovieSection(title: 'Populares', provider: popularMoviesProvider),
+          MovieSection(title: t.home.popular, provider: popularMoviesProvider),
           const SizedBox(height: 16),
           MovieSection(
-            title: 'Mejor calificadas',
+            title: t.home.topRated,
             provider: topRatedMoviesProvider,
           ),
         ],

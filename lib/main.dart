@@ -3,12 +3,19 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'config/routes/app_router.dart';
+import 'config/theme/app_theme.dart';
+import 'i18n/strings/gen/strings.g.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: '.env');
   AppRouter.configureRoutes();
-  runApp(const ProviderScope(child: MyApp()));
+  LocaleSettings.useDeviceLocale();
+  runApp(
+    ProviderScope(
+      child: TranslationProvider(child: const MyApp()),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -18,10 +25,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      title: t.appTitle,
+      theme: AppTheme.theme,
       onGenerateRoute: AppRouter.router.generator,
       initialRoute: '/',
     );

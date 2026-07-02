@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rappi_themoviedb/domain/errors/errors.dart';
 import 'package:rappi_themoviedb/presentation/providers/providers.dart';
 import 'package:rappi_themoviedb/presentation/widgets/widgets.dart';
+import 'package:rappi_themoviedb/i18n/strings/gen/strings.g.dart';
 
 class MovieSection extends ConsumerWidget {
   final String title;
@@ -23,9 +24,9 @@ class MovieSection extends ConsumerWidget {
           ..clearSnackBars()
           ..showSnackBar(
           SnackBar(
-            content: Text('No se pudo cargar más "$title"'),
+            content: Text(t.errors.loadMoreFailed(title: title)),
             action: SnackBarAction(
-              label: 'Reintentar',
+              label: t.actions.retry,
               onPressed: () => ref.read(provider.notifier).loadNextPage(),
             ),
           ),
@@ -35,13 +36,13 @@ class MovieSection extends ConsumerWidget {
 
     if (state.movies.isEmpty && state.error != null) {
       final message = switch (state.error) {
-        NetworkFailure() => 'Sin conexión a internet',
-        TimeoutFailure() => 'Conexión lenta, reintenta',
-        UnauthorizedFailure() => 'Acceso no autorizado',
-        ServerFailure() => 'Servicio no disponible',
-        NotFoundFailure() => 'Contenido no encontrado',
-        ParseFailure() => 'Error al leer los datos',
-        _ => 'Error inesperado',
+        NetworkFailure() => t.errors.network,
+        TimeoutFailure() => t.errors.timeout,
+        UnauthorizedFailure() => t.errors.unauthorized,
+        ServerFailure() => t.errors.server,
+        NotFoundFailure() => t.errors.contentNotFound,
+        ParseFailure() => t.errors.parse,
+        _ => t.errors.unexpected,
       };
       return _SectionPlaceholder(
         title: title,
@@ -53,7 +54,7 @@ class MovieSection extends ConsumerWidget {
               const SizedBox(height: 8),
               ElevatedButton(
                 onPressed: () => ref.read(provider.notifier).loadNextPage(),
-                child: const Text('Reintentar'),
+                child: Text(t.actions.retry),
               ),
             ],
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rappi_themoviedb/config/theme/app_colors.dart';
 
 class MovieSkeletonListview extends StatefulWidget {
   const MovieSkeletonListview({super.key});
@@ -33,7 +34,8 @@ class _MovieSkeletonListviewState extends State<MovieSkeletonListview>
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final baseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
+    final baseColor =
+        isDark ? AppColors.skeletonBaseDark : AppColors.skeletonBaseLight;
 
     return AnimatedBuilder(
       animation: _animation,
