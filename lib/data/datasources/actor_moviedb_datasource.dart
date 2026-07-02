@@ -7,19 +7,19 @@ import 'package:dio/dio.dart';
 
 class ActorMovieDbDatasource extends ActorsDatasource {
   final Dio dio;
+  final ActorMapper _mapper;
 
-  ActorMovieDbDatasource({Dio? dio}) : dio = dio ?? buildMovieDbDio();
+  ActorMovieDbDatasource({Dio? dio, ActorMapper? mapper})
+      : dio = dio ?? buildMovieDbDio(),
+        _mapper = mapper ?? const ActorMapper();
 
   @override
   Future<List<Actor>> getActorsByMovie(String movieID) async {
     final response = await dio.get('/movie/$movieID/credits');
-    if (response.statusCode != 200) {
-      throw Exception('Movie with ID: $movieID not found');
-    }
     final castResponse = CreditsResponse.fromJson(response.data);
 
     List<Actor> actors = castResponse.cast
-        .map((cast) => ActorMapper.castToEntity(cast))
+        .map((cast) => _mapper.castToEntity(cast))
         .toList();
 
     return actors;

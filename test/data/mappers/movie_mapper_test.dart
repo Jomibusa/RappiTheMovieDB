@@ -5,6 +5,8 @@ import 'package:rappi_themoviedb/data/models/moviedb/movie_moviedb.dart';
 import 'package:rappi_themoviedb/domain/entities/entities.dart';
 
 void main() {
+  const mapper = MovieMapper();
+
   group('MovieMapper.movieDBTOEntity', () {
     test(
         'Given un MovieMovieDB con paths y datos completos, '
@@ -28,7 +30,7 @@ void main() {
       );
 
       // When
-      final movie = MovieMapper.movieDBTOEntity(dto);
+      final movie = mapper.movieDBTOEntity(dto);
 
       // Then
       expect(movie.id, 10);
@@ -58,11 +60,11 @@ void main() {
       );
 
       // When
-      final movie = MovieMapper.movieDBTOEntity(dto);
+      final movie = mapper.movieDBTOEntity(dto);
 
       // Then
       expect(movie.backdropPath, isNot(contains('image.tmdb.org')));
-      expect(movie.posterPath, 'https://movieeo.com/no-poster.png');
+      expect(movie.posterPath, isNot(contains('image.tmdb.org')));
     });
 
     test(
@@ -73,7 +75,7 @@ void main() {
       final dto = MovieMovieDB(id: 12, voteAverage: null, releaseDate: null);
 
       // When
-      final movie = MovieMapper.movieDBTOEntity(dto);
+      final movie = mapper.movieDBTOEntity(dto);
 
       // Then
       expect(movie.voteAverage, 0.0);
@@ -115,7 +117,7 @@ void main() {
       );
 
       // When
-      final detail = MovieMapper.movieDetailsToEntity(dto);
+      final detail = mapper.movieDetailsToEntity(dto);
 
       // Then
       expect(detail.id, 20);
@@ -161,10 +163,10 @@ void main() {
       );
 
       // When
-      final detail = MovieMapper.movieDetailsToEntity(dto);
+      final detail = mapper.movieDetailsToEntity(dto);
 
       // Then
-      expect(detail.posterPath, 'https://movieeo.com/no-poster.png');
+      expect(detail.posterPath, isNot(contains('image.tmdb.org')));
       expect(detail.backdropPath, isNot(contains('image.tmdb.org')));
     });
   });

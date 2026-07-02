@@ -1,3 +1,4 @@
+import 'package:rappi_themoviedb/data/utils/repository_runner.dart';
 import 'package:rappi_themoviedb/domain/datasources/movies_datasource.dart';
 import 'package:rappi_themoviedb/domain/entities/entities.dart';
 import 'package:rappi_themoviedb/domain/repositories/movies_repository.dart';
@@ -8,23 +9,18 @@ class MovieRepositoryImpl extends MoviesRepository {
   MovieRepositoryImpl(this.datasource);
 
   @override
-  Future<List<Movie>> getPopular({int page = 1}) {
-    return datasource.getPopular(page: page);
-  }
+  Future<List<Movie>> getPopular({int page = 1}) =>
+      repositoryRun(() => datasource.getPopular(page: page));
 
   @override
-  Future<List<Movie>> getTopRated({int page = 1}) {
-    return datasource.getTopRated(page: page);
-  }
+  Future<List<Movie>> getTopRated({int page = 1}) =>
+      repositoryRun(() => datasource.getTopRated(page: page));
 
   @override
-  Future<MovieDetail> getMovieByID(String id) {
-    return datasource.getMovieByID(id);
-  }
+  Future<MovieDetail> getMovieByID(String id) =>
+      repositoryRun(() => datasource.getMovieByID(id));
 
   @override
-  Future<List<Movie>> searchMovies(String query) {
-    return datasource.searchMovies(query);
-  }
-
+  Future<List<Movie>> searchMovies(String query) =>
+      repositoryRun(() => datasource.searchMovies(query));
 }

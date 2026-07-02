@@ -22,7 +22,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldMessenger(
+      child: Scaffold(
       appBar: AppBar(
         title: const Text('RappiMovies'),
         actions: [
@@ -42,6 +43,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ],
       ),
+    ),
     );
   }
 }

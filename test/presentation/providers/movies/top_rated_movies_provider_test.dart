@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:rappi_themoviedb/domain/errors/errors.dart';
 import 'package:rappi_themoviedb/domain/repositories/movies_repository.dart';
 import 'package:rappi_themoviedb/presentation/providers/movies/movies_repository_provider.dart';
 import 'package:rappi_themoviedb/presentation/providers/movies/top_rated_movies_provider.dart';
@@ -114,14 +115,14 @@ void main() {
     final notifier = container.read(topRatedMoviesProvider.notifier);
     await notifier.loadNextPage();
     when(() => repository.getTopRated(page: 2))
-        .thenThrow(Exception('network error'));
+        .thenThrow(const NetworkFailure());
 
     // When
     await notifier.loadNextPage();
 
     // Then
     final state = container.read(topRatedMoviesProvider);
-    expect(state.error, isA<Exception>());
+    expect(state.error, isA<NetworkFailure>());
     expect(state.movies, page1);
     expect(state.isLoadingNextPage, isFalse);
   });
@@ -133,7 +134,7 @@ void main() {
       () async {
     // Given
     when(() => repository.getTopRated(page: 1))
-        .thenThrow(Exception('network error'));
+        .thenThrow(const NetworkFailure());
     final notifier = container.read(topRatedMoviesProvider.notifier);
     await notifier.loadNextPage();
 

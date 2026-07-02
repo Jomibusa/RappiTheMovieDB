@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rappi_themoviedb/domain/errors/errors.dart';
 import 'package:rappi_themoviedb/presentation/providers/providers.dart';
 import 'package:rappi_themoviedb/presentation/widgets/widgets.dart';
 
@@ -33,13 +34,22 @@ class MovieSection extends ConsumerWidget {
     });
 
     if (state.movies.isEmpty && state.error != null) {
+      final message = switch (state.error) {
+        NetworkFailure() => 'Sin conexión a internet',
+        TimeoutFailure() => 'Conexión lenta, reintenta',
+        UnauthorizedFailure() => 'Acceso no autorizado',
+        ServerFailure() => 'Servicio no disponible',
+        NotFoundFailure() => 'Contenido no encontrado',
+        ParseFailure() => 'Error al leer los datos',
+        _ => 'Error inesperado',
+      };
       return _SectionPlaceholder(
         title: title,
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('No se pudo cargar'),
+              Text(message),
               const SizedBox(height: 8),
               ElevatedButton(
                 onPressed: () => ref.read(provider.notifier).loadNextPage(),
