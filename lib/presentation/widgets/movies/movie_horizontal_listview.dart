@@ -24,7 +24,7 @@ class MovieHorizontalListview extends StatelessWidget {
         ),
         SizedBox(
           height: 220,
-          child: NotificationListener<ScrollNotification>(
+          child: NotificationListener<ScrollUpdateNotification>(
             onNotification: (notification) {
               if (notification.metrics.pixels + 200 >=
                   notification.metrics.maxScrollExtent) {

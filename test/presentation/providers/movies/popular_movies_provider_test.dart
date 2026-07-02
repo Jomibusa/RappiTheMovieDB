@@ -25,18 +25,20 @@ void main() {
   });
 
   test('Given un listado recién creado, When se lee su estado inicial, '
-      'Then está vacío', () {
+      'Then está vacío y sin error', () {
     // When
     final state = container.read(popularMoviesProvider);
 
     // Then
-    expect(state, isEmpty);
+    expect(state.movies, isEmpty);
+    expect(state.error, isNull);
+    expect(state.isLoadingNextPage, isFalse);
   });
 
   test(
       'Given que el repositorio tiene una primera página de películas, '
       'When se carga la siguiente página, '
-      'Then el estado contiene esas películas', () async {
+      'Then el estado contiene esas películas sin error', () async {
     // Given
     final page1 = [buildMovie(id: 1), buildMovie(id: 2)];
     when(() => repository.getPopular(page: 1)).thenAnswer((_) async => page1);
@@ -45,7 +47,9 @@ void main() {
     await container.read(popularMoviesProvider.notifier).loadNextPage();
 
     // Then
-    expect(container.read(popularMoviesProvider), page1);
+    final state = container.read(popularMoviesProvider);
+    expect(state.movies, page1);
+    expect(state.error, isNull);
     verify(() => repository.getPopular(page: 1)).called(1);
   });
 
@@ -65,7 +69,10 @@ void main() {
     await notifier.loadNextPage();
 
     // Then
-    expect(container.read(popularMoviesProvider), [...page1, ...page2]);
+    expect(container.read(popularMoviesProvider).movies, [
+      ...page1,
+      ...page2,
+    ]);
     verify(() => repository.getPopular(page: 1)).called(1);
     verify(() => repository.getPopular(page: 2)).called(1);
   });
@@ -88,28 +95,53 @@ void main() {
     await Future.wait([firstCall, secondCall]);
 
     // Then
-    expect(container.read(popularMoviesProvider), page1);
+    expect(container.read(popularMoviesProvider).movies, page1);
     verify(() => repository.getPopular(page: 1)).called(1);
   });
 
   test(
       'Given que la carga de una página falla, '
-      'When se vuelve a pedir la siguiente página, '
-      'Then el pedido no queda bloqueado por el fallo anterior', () async {
+      'When se pide la siguiente página, '
+      'Then el estado expone el error sin perder las películas ya cargadas',
+      () async {
+    // Given
+    final page1 = [buildMovie(id: 1)];
+    when(() => repository.getPopular(page: 1)).thenAnswer((_) async => page1);
+    final notifier = container.read(popularMoviesProvider.notifier);
+    await notifier.loadNextPage();
+    when(() => repository.getPopular(page: 2))
+        .thenThrow(Exception('network error'));
+
+    // When
+    await notifier.loadNextPage();
+
+    // Then
+    final state = container.read(popularMoviesProvider);
+    expect(state.error, isA<Exception>());
+    expect(state.movies, page1);
+    expect(state.isLoadingNextPage, isFalse);
+  });
+
+  test(
+      'Given que la carga de una página falló, '
+      'When se reintenta, '
+      'Then se vuelve a pedir la misma página que falló, no la siguiente',
+      () async {
     // Given
     when(() => repository.getPopular(page: 1))
         .thenThrow(Exception('network error'));
     final notifier = container.read(popularMoviesProvider.notifier);
-    await expectLater(notifier.loadNextPage(), throwsException);
+    await notifier.loadNextPage();
 
     // When
-    final page2 = [buildMovie(id: 2)];
-    when(() => repository.getPopular(page: 2)).thenAnswer((_) async => page2);
+    final page1 = [buildMovie(id: 1)];
+    when(() => repository.getPopular(page: 1)).thenAnswer((_) async => page1);
     await notifier.loadNextPage();
 
     // Then
-    expect(container.read(popularMoviesProvider), page2);
-    verify(() => repository.getPopular(page: 1)).called(1);
-    verify(() => repository.getPopular(page: 2)).called(1);
+    expect(container.read(popularMoviesProvider).movies, page1);
+    expect(container.read(popularMoviesProvider).error, isNull);
+    verify(() => repository.getPopular(page: 1)).called(2);
+    verifyNever(() => repository.getPopular(page: 2));
   });
 }

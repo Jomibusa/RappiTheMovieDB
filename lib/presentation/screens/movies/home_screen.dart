@@ -14,15 +14,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    ref.read(popularMoviesProvider.notifier).loadNextPage();
-    ref.read(topRatedMoviesProvider.notifier).loadNextPage();
+    Future.microtask(() {
+      ref.read(popularMoviesProvider.notifier).loadNextPage();
+      ref.read(topRatedMoviesProvider.notifier).loadNextPage();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final popularMovies = ref.watch(popularMoviesProvider);
-    final topRatedMovies = ref.watch(topRatedMoviesProvider);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('RappiMovies'),
@@ -33,25 +32,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ],
       ),
-      body: popularMovies.isEmpty
-          ? const FullScreenLoader()
-          : ListView(
-              children: [
-                MovieHorizontalListview(
-                  title: 'Populares',
-                  movies: popularMovies,
-                  onLoadNextPage: () =>
-                      ref.read(popularMoviesProvider.notifier).loadNextPage(),
-                ),
-                MovieHorizontalListview(
-                  title: 'Mejor calificadas',
-                  movies: topRatedMovies,
-                  onLoadNextPage: () => ref
-                      .read(topRatedMoviesProvider.notifier)
-                      .loadNextPage(),
-                ),
-              ],
-            ),
+      body: ListView(
+        children: [
+          MovieSection(title: 'Populares', provider: popularMoviesProvider),
+          MovieSection(
+            title: 'Mejor calificadas',
+            provider: topRatedMoviesProvider,
+          ),
+        ],
+      ),
     );
   }
 }
