@@ -8,15 +8,18 @@ import 'package:dio/dio.dart';
 
 class MovieDbDatasource extends MoviesDatasource {
   final Dio dio;
+  final MovieMapper _mapper;
 
-  MovieDbDatasource({Dio? dio}) : dio = dio ?? buildMovieDbDio();
+  MovieDbDatasource({Dio? dio, MovieMapper? mapper})
+      : dio = dio ?? buildMovieDbDio(),
+        _mapper = mapper ?? const MovieMapper();
 
   List<Movie> _jsonToMovies(Map<String, dynamic> json) {
     final moviedbReponse = MovieDbResponse.fromJson(json);
 
     final List<Movie> movies = moviedbReponse.results
         .where((moviedb) => moviedb.posterPath != 'no-poster')
-        .map((moviedb) => MovieMapper.movieDBTOEntity(moviedb))
+        .map((moviedb) => _mapper.movieDBTOEntity(moviedb))
         .toList();
     return movies;
   }
@@ -38,12 +41,9 @@ class MovieDbDatasource extends MoviesDatasource {
   @override
   Future<MovieDetail> getMovieByID(String id) async {
     final response = await dio.get('/movie/$id');
-    if (response.statusCode != 200) {
-      throw Exception('Movie with ID: $id not found');
-    }
     final movieDetails = MovieDetails.fromJson(response.data);
 
-    return MovieMapper.movieDetailsToEntity(movieDetails);
+    return _mapper.movieDetailsToEntity(movieDetails);
   }
 
   @override

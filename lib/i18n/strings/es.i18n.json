@@ -1,0 +1,29 @@
+{
+  "appTitle": "RappiMovies",
+  "home": {
+    "popular": "Populares",
+    "topRated": "Mejor calificadas"
+  },
+  "search": {
+    "hint": "Buscar película...",
+    "emptyState": "Escribe para buscar una película"
+  },
+  "movieDetail": {
+    "actorsTitle": "Actores",
+    "actorsLoadError": "No se pudo cargar el elenco: $error"
+  },
+  "actions": {
+    "retry": "Reintentar"
+  },
+  "errors": {
+    "network": "Sin conexión a internet",
+    "timeout": "Conexión lenta, reintenta",
+    "unauthorized": "Acceso no autorizado",
+    "server": "Servicio no disponible",
+    "movieNotFound": "Película no encontrada",
+    "contentNotFound": "Contenido no encontrado",
+    "parse": "Error al leer los datos",
+    "unexpected": "Error inesperado",
+    "loadMoreFailed": "No se pudo cargar más \"$title\""
+  }
+}

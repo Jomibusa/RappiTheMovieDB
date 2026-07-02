@@ -1,29 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rappi_themoviedb/domain/entities/entities.dart';
 import 'package:rappi_themoviedb/presentation/providers/movies/movies_repository_provider.dart';
+import 'package:rappi_themoviedb/presentation/providers/movies/paginated_movies_notifier.dart';
 
 final topRatedMoviesProvider =
-    NotifierProvider<TopRatedMoviesNotifier, List<Movie>>(
+    NotifierProvider<TopRatedMoviesNotifier, PaginatedMoviesState>(
         TopRatedMoviesNotifier.new);
 
-class TopRatedMoviesNotifier extends Notifier<List<Movie>> {
-  int _currentPage = 0;
-  bool _isLoading = false;
-
+class TopRatedMoviesNotifier extends PaginatedMoviesNotifier {
   @override
-  List<Movie> build() => [];
-
-  Future<void> loadNextPage() async {
-    if (_isLoading) return;
-    _isLoading = true;
-
-    try {
-      _currentPage++;
-      final repository = ref.read(moviesRepositoryProvider);
-      final movies = await repository.getTopRated(page: _currentPage);
-      state = [...state, ...movies];
-    } finally {
-      _isLoading = false;
-    }
+  Future<List<Movie>> fetchPage(int page) {
+    final repository = ref.read(moviesRepositoryProvider);
+    return repository.getTopRated(page: page);
   }
 }

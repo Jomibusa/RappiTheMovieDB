@@ -3,6 +3,8 @@ import 'package:rappi_themoviedb/data/mappers/actor_mapper.dart';
 import 'package:rappi_themoviedb/data/models/moviedb/credits_response.dart';
 
 void main() {
+  const mapper = ActorMapper();
+
   group('ActorMapper.castToEntity', () {
     test(
         'Given un Cast con profilePath, '
@@ -23,7 +25,7 @@ void main() {
       );
 
       // When
-      final actor = ActorMapper.castToEntity(cast);
+      final actor = mapper.castToEntity(cast);
 
       // Then
       expect(actor.id, 1);
@@ -54,7 +56,7 @@ void main() {
       );
 
       // When
-      final actor = ActorMapper.castToEntity(cast);
+      final actor = mapper.castToEntity(cast);
 
       // Then
       expect(actor.profilePath, isNot(contains('image.tmdb.org')));

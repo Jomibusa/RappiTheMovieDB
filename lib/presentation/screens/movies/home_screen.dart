@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rappi_themoviedb/presentation/providers/providers.dart';
 import 'package:rappi_themoviedb/presentation/widgets/widgets.dart';
+import 'package:rappi_themoviedb/i18n/strings/gen/strings.g.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -14,18 +15,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    ref.read(popularMoviesProvider.notifier).loadNextPage();
-    ref.read(topRatedMoviesProvider.notifier).loadNextPage();
+    Future.microtask(() {
+      ref.read(popularMoviesProvider.notifier).loadNextPage();
+      ref.read(topRatedMoviesProvider.notifier).loadNextPage();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final popularMovies = ref.watch(popularMoviesProvider);
-    final topRatedMovies = ref.watch(topRatedMoviesProvider);
-
-    return Scaffold(
+    return ScaffoldMessenger(
+      child: Scaffold(
       appBar: AppBar(
-        title: const Text('RappiMovies'),
+        title: Text(t.appTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
@@ -33,25 +34,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ],
       ),
-      body: popularMovies.isEmpty
-          ? const FullScreenLoader()
-          : ListView(
-              children: [
-                MovieHorizontalListview(
-                  title: 'Populares',
-                  movies: popularMovies,
-                  onLoadNextPage: () =>
-                      ref.read(popularMoviesProvider.notifier).loadNextPage(),
-                ),
-                MovieHorizontalListview(
-                  title: 'Mejor calificadas',
-                  movies: topRatedMovies,
-                  onLoadNextPage: () => ref
-                      .read(topRatedMoviesProvider.notifier)
-                      .loadNextPage(),
-                ),
-              ],
-            ),
+      body: ListView(
+        children: [
+          MovieSection(title: t.home.popular, provider: popularMoviesProvider),
+          const SizedBox(height: 16),
+          MovieSection(
+            title: t.home.topRated,
+            provider: topRatedMoviesProvider,
+          ),
+        ],
+      ),
+    ),
     );
   }
 }

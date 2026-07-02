@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:rappi_themoviedb/domain/errors/errors.dart';
 import 'package:rappi_themoviedb/domain/repositories/movies_repository.dart';
 import 'package:rappi_themoviedb/presentation/providers/movies/movie_detail_provider.dart';
 import 'package:rappi_themoviedb/presentation/providers/movies/movies_repository_provider.dart';
@@ -66,7 +67,7 @@ void main() {
       'Then el estado del provider expone el error', () async {
     // Given
     when(() => repository.getMovieByID('99'))
-        .thenAnswer((_) async => throw Exception('not found'));
+        .thenThrow(const NotFoundFailure('99'));
     AsyncValue<void>? lastValue;
     container.listen(movieDetailProvider('99'), (_, next) {
       lastValue = next;
@@ -77,6 +78,6 @@ void main() {
 
     // Then
     expect(lastValue?.hasError, isTrue);
-    expect(lastValue?.error, isA<Exception>());
+    expect(lastValue?.error, isA<NotFoundFailure>());
   });
 }

@@ -13,27 +13,27 @@ abstract class MovieDetails with _$MovieDetails {
     @JsonKey(name: 'belongs_to_collection') dynamic belongsToCollection,
     required int budget,
     required List<GenreDto> genres,
-    required String homepage,
+    @Default('') String homepage,
     required int id,
-    @JsonKey(name: 'imdb_id') required String imdbId,
+    @JsonKey(name: 'imdb_id') @Default('') String imdbId,
     @JsonKey(name: 'original_language') required String originalLanguage,
     @JsonKey(name: 'original_title') required String originalTitle,
-    required String overview,
+    @Default('') String overview,
     required double popularity,
-    @JsonKey(name: 'poster_path') required String posterPath,
+    @JsonKey(name: 'poster_path') @Default('') String posterPath,
     @JsonKey(name: 'production_companies')
     required List<ProductionCompany> productionCompanies,
     @JsonKey(name: 'production_countries')
     required List<ProductionCountry> productionCountries,
     @JsonKey(name: 'release_date')
-    @DateConverter()
-    required DateTime releaseDate,
+    @NullableDateConverter()
+    DateTime? releaseDate,
     required int revenue,
     required int runtime,
     @JsonKey(name: 'spoken_languages')
     required List<SpokenLanguage> spokenLanguages,
-    required String status,
-    required String tagline,
+    @Default('') String status,
+    @Default('') String tagline,
     required String title,
     required bool video,
     @JsonKey(name: 'vote_average') required double voteAverage,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rappi_themoviedb/config/theme/app_colors.dart';
 
 class MovieInfoRow extends StatelessWidget {
   final DateTime? releaseDate;
@@ -31,7 +32,7 @@ class MovieInfoRow extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.star, size: 16, color: Colors.amber),
+            const Icon(Icons.star, size: 16, color: AppColors.rating),
             const SizedBox(width: 4),
             Text(voteAverage.toStringAsFixed(1)),
           ],
