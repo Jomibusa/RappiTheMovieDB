@@ -1,0 +1,5 @@
+import 'package:rappi_themoviedb/domain/entities/entities.dart';
+
+abstract class ActorsDatasource {
+  Future<List<Actor>> getActorsByMovie(String movieID);
+}
