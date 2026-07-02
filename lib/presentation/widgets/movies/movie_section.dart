@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rappi_themoviedb/presentation/providers/providers.dart';
-import 'package:rappi_themoviedb/presentation/widgets/movies/movie_horizontal_listview.dart';
-import 'package:rappi_themoviedb/presentation/widgets/shared/full_screen_loader.dart';
+import 'package:rappi_themoviedb/presentation/widgets/widgets.dart';
 
 class MovieSection extends ConsumerWidget {
   final String title;
@@ -19,7 +18,9 @@ class MovieSection extends ConsumerWidget {
       final failedWithMoviesAlreadyLoaded =
           next.error != null && next.movies.isNotEmpty;
       if (failedWithMoviesAlreadyLoaded) {
-        ScaffoldMessenger.of(context).showSnackBar(
+        ScaffoldMessenger.of(context)
+          ..clearSnackBars()
+          ..showSnackBar(
           SnackBar(
             content: Text('No se pudo cargar más "$title"'),
             action: SnackBarAction(
@@ -51,7 +52,7 @@ class MovieSection extends ConsumerWidget {
     }
 
     if (state.movies.isEmpty) {
-      return _SectionPlaceholder(title: title, child: const FullScreenLoader());
+      return _SectionPlaceholder(title: title, child: const MovieSkeletonListview());
     }
 
     return MovieHorizontalListview(
@@ -62,9 +63,6 @@ class MovieSection extends ConsumerWidget {
   }
 }
 
-/// Título + caja de 220px que se muestra mientras la sección no tiene
-/// películas que mostrar (cargando o con error). Cuando sí hay películas,
-/// MovieSection usa MovieHorizontalListview directamente, no esto.
 class _SectionPlaceholder extends StatelessWidget {
   final String title;
   final Widget child;

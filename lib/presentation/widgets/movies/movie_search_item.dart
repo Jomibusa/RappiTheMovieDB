@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rappi_themoviedb/domain/entities/entities.dart';
+import 'package:rappi_themoviedb/presentation/widgets/widgets.dart';
 
 class MovieSearchItem extends StatelessWidget {
   final Movie movie;
@@ -12,10 +13,9 @@ class MovieSearchItem extends StatelessWidget {
       onTap: () => Navigator.pushNamed(context, '/movie/${movie.id}'),
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(8),
-        child: Image.network(
-          movie.posterPath,
+        child: AppNetworkImage(
+          url: movie.posterPath,
           width: 56,
-          fit: BoxFit.cover,
         ),
       ),
       title: Text(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rappi_themoviedb/domain/entities/entities.dart';
+import 'package:rappi_themoviedb/presentation/widgets/widgets.dart';
 
 class MovieHorizontalListview extends StatelessWidget {
   final String title;
@@ -44,10 +45,10 @@ class MovieHorizontalListview extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 6),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
-                      child: Image.network(
-                        movie.posterPath,
+                      child: AppNetworkImage(
+                        url: movie.posterPath,
                         width: 130,
-                        fit: BoxFit.cover,
+                        height: 220,
                       ),
                     ),
                   ),

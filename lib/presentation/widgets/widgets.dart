@@ -6,4 +6,6 @@ export 'movies/movie_info_row.dart';
 export 'movies/movie_search_item.dart';
 export 'movies/movie_section.dart';
 export 'movies/movie_tagline.dart';
+export 'shared/app_network_image.dart';
 export 'shared/full_screen_loader.dart';
+export 'shared/movie_skeleton_listview.dart';

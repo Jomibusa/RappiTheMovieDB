@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rappi_themoviedb/domain/entities/entities.dart';
+import 'package:rappi_themoviedb/presentation/widgets/widgets.dart';
 
 class ActorHorizontalListview extends StatelessWidget {
   final List<Actor> actors;
@@ -21,11 +22,11 @@ class ActorHorizontalListview extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    actor.profilePath,
-                    height: 130,
+                  child: AppNetworkImage(
+                    url: actor.profilePath,
                     width: 100,
-                    fit: BoxFit.cover,
+                    height: 130,
+                    errorIcon: Icons.person_outline,
                   ),
                 ),
                 const SizedBox(height: 4),

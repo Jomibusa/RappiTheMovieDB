@@ -35,6 +35,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body: ListView(
         children: [
           MovieSection(title: 'Populares', provider: popularMoviesProvider),
+          const SizedBox(height: 16),
           MovieSection(
             title: 'Mejor calificadas',
             provider: topRatedMoviesProvider,
